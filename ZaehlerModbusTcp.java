@@ -3,13 +3,14 @@ import org.json.*;
 
 public class ZaehlerModbusTcp extends Zaehler{
 	ModbusTCP mb;
+	int id = 1;
 	int[] reg = new int[1];
 	float[] faktor = new float[1];
 	
 	public ZaehlerModbusTcp(JSONObject z){
 		super(z);
 		JSONObject d = z.getJSONObject("daten");
-		mb = new ModbusTCP(d.getString("ip"), d.getInt("port"));
+		id = d.getInt("id");
 		if(d.has("regP")){
 			reg[0] = d.getInt("regP");
 			if(d.has("faktorP"))
@@ -25,6 +26,7 @@ public class ZaehlerModbusTcp extends Zaehler{
 				else
 					faktor[faktor.length - 1] = 1;
 			}
+			mb = new ModbusTCP(d.getString("ip"), d.getInt("port"));
 		}else{
 			fehler = 1;
 			throw new ZaehlerModbusTcpException();
@@ -34,7 +36,7 @@ public class ZaehlerModbusTcp extends Zaehler{
 	public int getLeistung(){
 		int ret;
 
-		ret = mb.getModbusRegisterInt(reg[0]);
+		ret = mb.getModbusHoldingRegister(id, reg[0]);
 		if(mb.getFehler() == 0){
 			ret *= faktor[0];
 			fehler = 0;
@@ -47,7 +49,7 @@ public class ZaehlerModbusTcp extends Zaehler{
 		float ret;
 		if(reg.length < 2)
 			return 0;
-		ret = mb.getModbusRegisterInt(reg[1]);
+		ret = mb.getModbusHoldingRegister(id, reg[1]);
 		if(mb.getFehler() == 0){
 			ret *= faktor[1];
 			fehler = 0;

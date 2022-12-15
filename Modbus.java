@@ -1,40 +1,77 @@
-import de.re.easymodbus.modbusclient.*;
+import com.intelligt.modbus.jlibmodbus.master.ModbusMaster;
 
-public class ModbusTCP{
+abstract class Modbus{
 	int fehler = 0;
-	ModbusClient modbusClient;
+	ModbusMaster modbusMaster;
 	
-	public ModbusTCP(String ip, int port){
-		modbusClient = new ModbusClient(ip, port);
-	}
-	
-	public int getFehler(){
-		return fehler;
-	}
-	
-	public int[] getModbusRegisterInt(int reg, int anzahl){
-		fehler = 0;
+	public int[] getModbusHoldingRegister(int id, int reg, int anzahl){
 		int[] ret = null;
 
 		try{
-			if (!modbusClient.isConnected()) {
-				modbusClient.Connect();
+			if (!modbusMaster.isConnected()) {
+				modbusMaster.connect();
 			}
-			ret = modbusClient.ReadHoldingRegisters(reg, anzahl);
+			ret = modbusMaster.readHoldingRegisters(id, reg, anzahl);
+			for(int i = 0; i < ret.length; i++)
+				ret[i] = int16ToInt32(ret[i]);
 		}catch (Exception e){
 			fehler = 1;
 			Log.err("Modbus.getModbusRegisterInt: " + e);
 		} finally {
 			try {
-				modbusClient.Disconnect();
+				modbusMaster.disconnect();
 			}catch (Exception e) {
-//				e.printStackTrace();
 			}
 		}
 		return ret;
 	}
 	
-	public int getModbusRegisterInt(int reg){
-		return getModbusRegisterInt(reg, 1)[0];
+	public int getModbusHoldingRegister(int id, int reg){
+		int[] erg = getModbusHoldingRegister(id, reg, 1);
+        if(fehler == 0 && erg != null)
+            return erg[0];
+        else
+            return 0;
+	}
+	
+	public int[] getModbusInputRegister(int id, int reg, int anzahl){
+		int[] ret = null;
+
+		try{
+			if (!modbusMaster.isConnected()) {
+				modbusMaster.connect();
+			}
+			ret = modbusMaster.readInputRegisters(id, reg, anzahl);
+			for(int i = 0; i < ret.length; i++)
+				ret[i] = int16ToInt32(ret[i]);
+		}catch (Exception e){
+			fehler = 1;
+			Log.err("Modbus.getModbusRegisterInt: " + e);
+		} finally {
+			try {
+				modbusMaster.disconnect();
+			}catch (Exception e) {
+			}
+		}
+		return ret;
+	}
+	
+	public int getModbusInputRegister(int id, int reg){
+		int[] erg = getModbusInputRegister(id, reg, 1);
+        if(fehler == 0 && erg != null)
+            return erg[0];
+        else
+            return 0;
+	}
+	
+	int int16ToInt32(int i){
+		if(i > 32767)
+			return i + -65536;
+		else
+			return i;
+	}
+	
+	public int getFehler(){
+		return fehler;
 	}
 }

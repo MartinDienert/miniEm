@@ -1,4 +1,5 @@
 import java.util.*;
+import java.text.*;
 import org.json.*;
 
 class Hauptschleife extends TimerTask{
@@ -42,9 +43,10 @@ class Hauptschleife extends TimerTask{
 		if(zNetz != null){
 			int p = zNetz.getLeistung();
 			float u = zNetz.getSpannung();
+			
 			if(zNetz.getFehler() == 0){
 				Log.addMW(p);
-				Log.log("Spannung: " + u + ", Leistung: " + (p + wBLeistung) + " W", 2);
+				Log.log("Spannung: " + new DecimalFormat("#.#").format(u) + " V, Leistung: " + (p + wBLeistung) + " W", 2);
 				if(wBox != null){
 					wBox.setLeistung(p + wBLeistung);
 				}
