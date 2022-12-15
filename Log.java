@@ -5,11 +5,16 @@ import java.nio.file.*;
 
 public class Log{
 	static int loglevel = 0;
+	static int logMw = 0;
 	static int[] mw = new int[0];
 	static String mwdatei;
 	
 	public static void setLoglevel(int l){
 		loglevel = l;
+	}
+	
+	public static void setLogMw(int l){
+		logMw = l;
 	}
 	
 	public static void setMWDateiname(String s){
@@ -40,21 +45,27 @@ public class Log{
 	}
 
 	public static void logMW(int l){
-		if(loglevel >= l){
+		if(logMw >= l){
+            Date datum = new Date();
+            SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
+            String s = "";
+            if(new File(mwdatei).length() > 0)
+                s += "\n";
+            s += format.format(datum);
+            for(int i = 0; i < mw.length; i++)
+                s += ";" + Integer.toString(mw[i]);
 			try{
-				Date datum = new Date();
-				SimpleDateFormat format = new SimpleDateFormat("dd.MM.yyyy kk:mm:ss");
-				String s = "";
-				if(new File(mwdatei).length() > 0)
-					s += "\n";
-				s += format.format(datum);
-				for(int i = 0; i < mw.length; i++)
-					s += ";" + Integer.toString(mw[i]);
 				Files.writeString(Path.of(mwdatei), s, StandardOpenOption.APPEND);
-				mw = new int[0];
 			}catch(Exception e){
-				Log.err("Log.logMW: " + e);
+                try{
+                    Files.writeString(Path.of(mwdatei), s, StandardOpenOption.CREATE);
+                }catch(Exception ee){
+                    Log.err("Log.logMW: " + ee);
+                }
 			}
+            finally{
+                mw = new int[0];
+            }
 		}		
 	}
 

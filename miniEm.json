@@ -1,0 +1,105 @@
+{
+	loglevel:5,
+    logMw:1,
+	zykluszeit:5000,
+	eingabedatei:"miniEm_eingabe.txt",
+	ausgabedatei:"miniEm_ausgabe.txt",
+	mwdatei:"miniEm_messwerte.txt",
+	zaehlerErzeugung:{
+		name:"froniusWr",
+		type:"modbustcp",
+		daten:{
+			ip:"192.168.178.32",
+			port:502,
+			id:1,
+			regP:500,
+			faktorP:1
+		}
+	},
+	XXzaehlerNetz:{
+		name:"elgrisNetz",
+		type:"modbustcp",
+		daten:{
+			ip:"192.168.178.31",
+			port:502,
+			id:1,
+			regU:40076,
+			faktorU:0.01,
+			regP:40087,
+			faktorP:1
+		}
+	},
+	XXXzaehlerNetz:{
+		name:"testNetz",
+		type:"test",
+		daten:{
+			leistung:[-1000,-1450,-2730,-1400,-2860,  0,-1500,  0];
+			zeiten: [    0,   20,   80,  140,  200,260,  270,300];
+		}
+	},
+	zaehlerNetz:{
+		name:"testNetz2",
+		type:"test",
+		daten:{
+			leistung:[-1000,-1050,-2300,-1350,-1000,-1450,  0];
+			zeiten: [    0,   10,   100,  190,  270,  300,400];
+		}
+	},
+	XXwallbox:{
+		name:"Autoaid",
+		startleistung:1400,
+		stopleistung:100,
+		offsetleistung:100,
+		strom:[8000,10000,13000],
+		leistung:[1300,1900,2600],
+		wartezeit: 30,
+        wartetimeout: 120,
+		startzeit: 60,
+		stopzeit: 120,
+		pluszeit: 30,
+		minuszeit: 30,
+		type:"http",
+		daten:{
+			ip:"192.168.178.40",
+			port:80,
+			status:{
+				request:"GET",
+				resource:"/evse/state",
+				status:"vehicle_state",
+				strom:"allowed_charging_current"
+			},
+			ladenStart:{
+				request:"PUT",
+				resource:"/evse/start_charging",
+				inhalt:"null"
+			},
+			ladenStop:{
+				request:"PUT",
+				resource:"/evse/stop_charging",
+				inhalt:"null"
+			},
+			ladeStrom:{
+				request:"PUT",
+				resource:"/evse/current_limit",
+				inhalt:"{current:%i}"
+			}
+		}
+	},
+	wallbox:{
+		name:"Test",
+		startleistung:1400,
+		stopleistung:100,
+		offsetleistung:100,
+		strom:[8000,10000,13000,16000],
+		leistung:[1300,1900,2600,3400],
+		wartezeit: 20,
+        wartetimeout: 120,
+		startzeit: 30,
+		stopzeit: 40,
+		pluszeit: 10,
+		minuszeit: 10,
+		type:"test",
+		daten:{
+		}
+	}
+}

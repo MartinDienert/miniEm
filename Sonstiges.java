@@ -29,7 +29,7 @@ public class Sonstiges{
 			eingabe = Files.readString(Path.of(eingabedatei));
 		}catch(Exception e){
 			Log.err("Sonstiges.eingabe_lesen: " + e);
-			eingabe = "";
+			eingabe = "modus:1";
 		}
 	}
 	
@@ -38,6 +38,7 @@ public class Sonstiges{
 			ausgabe = Files.readString(Path.of(ausgabedatei));
 		}catch(Exception e){
 			Log.err("Sonstiges.ausgabe_lesenn: " + e);
+			ausgabe = "";
 		}
 	}
 	

@@ -50,7 +50,7 @@ class Hauptschleife extends TimerTask{
 				}
 			}
 		}
-		Log.logMW(5);
+		Log.logMW(1);
 		Sonstiges.ausgabe_schreiben();
 		Debug.logZeit(1);
 	}

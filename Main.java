@@ -41,6 +41,7 @@ import org.json.*;
 
 public class Main{
 	final static String progName = "miniEm";
+	final static String beschreibung = "mini Energie-Manager";
 	final static String vers = "0.1";
 	final static int debuglevel = 0;
 
@@ -48,10 +49,9 @@ public class Main{
 		Zaehler zNetz = null;
 		Wallbox wBox = null;
 		Hauptschleife hs;
-//		Eingabeschleife es;
 		Debug.setDebuglevel(debuglevel);
 		
-		System.out.println(progName + " - mini Energie-Manager, Version: " + vers);
+		System.out.println(progName + " - "+ beschreibung + ", Version: " + vers);
 		System.out.println();
 		try{
 			String s;
@@ -64,6 +64,7 @@ public class Main{
 			JSONObject config = new JSONObject(s);
 			Debug.logZeit(1);
 			Log.setLoglevel(config.getInt("loglevel"));
+			Log.setLogMw(config.getInt("logMw"));
 			Log.setMWDateiname(config.getString("mwdatei"));
 			Sonstiges.eingabedatei = config.getString("eingabedatei");
 			Sonstiges.ausgabedatei = config.getString("ausgabedatei");
