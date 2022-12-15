@@ -8,7 +8,9 @@ Alle Dateien und Verzeichnisse in ein Verzeichnis kopieren.
 
 Wenn nötig alte Class-Dateien löschen - `rm *.class`
 
-Kompilieren ohne Debuginformationen - `javac -g:none *.java`
+Kompilieren ohne Debuginformationen - `javac -classpath .:lib/jlibmodbus.jar:lib/jssc.jar:lib/json-20211205.jar -g:none *.java`
+
+Programm starten mit `java  -classpath .:lib/jlibmodbus.jar:lib/jssc.jar:lib/json-20211205.jar "Main"` oder
 
 jar-Datei erzeugen - `jar cvmf META-INF/MANIFEST.MF meinJarFile.jar *.class`
 
