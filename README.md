@@ -12,6 +12,6 @@ Kompilieren ohne Debuginformationen - `javac -classpath .:lib/jlibmodbus.jar:lib
 
 Programm starten mit `java  -classpath .:lib/jlibmodbus.jar:lib/jssc.jar:lib/json-20211205.jar "Main"` oder
 
-jar-Datei erzeugen - `jar cvmf META-INF/MANIFEST.MF meinJarFile.jar *.class`
+jar-Datei erzeugen - `jar cvmf META-INF/MANIFEST.MF miniEm.jar *.class`
 
-Datei ausführen - `java -jar meinJarFile.jar`
+Datei ausführen - `java -jar miniEm.jar`
