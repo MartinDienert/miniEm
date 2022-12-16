@@ -1,4 +1,8 @@
+Programmversion 0.1
+Bei Leistung ist immer die Wirkleistung gemeint. 
+
 Die Datei miniEm.json hat folgenden Aufbau:
+
 {
   ---Allgemeine Einstellungen---
   zaehlerErzeugung:{                              die Messstelle für die Erzeugung wird nur zur Information verwendet
@@ -37,12 +41,14 @@ Die Datei miniEm.json hat folgenden Aufbau:
 
 Allgemeine Einstellungen
 ------------------------
-  loglevel:5,                                     steuert die Menge der Informationen
-  logMw:1,                                        schaltet die Messwertspeicherung ein (0 - aus, 1 - ein)
+  loglevel:5,                                     steuert die Menge der Informationen die auf der Konsole ausgegeben werden
+  loglevelDatei:5,                                steuert die Menge der Informationen die in die Logdatei geschrieben werden
+  loglevelMw:1,                                   schaltet die Messwertspeicherung ein (0 - aus, 1 - ein)
   zykluszeit:5000,                                gibt an wie oft das Programm durchlaufen wird (in Millisekunden)
   eingabedatei:"miniEm_eingabe.txt",              Name der Eingabedatei (siehe weiter unten)
   ausgabedatei:"miniEm_ausgabe.txt",              Name der Ausgabedatei (siehe weiter unten)
-  mwdatei:"miniEm_messwerte.txt",                 Name der Datei in der die Messwerte gespeichert werden
+  logdateiname:"miniEm_log.txt",                  Name der Logdatei
+  mwdateiname:"miniEm_messwerte.txt",             Name der Datei in der die Messwerte gespeichert werden
 
 Messstelle
 ----------
@@ -72,7 +78,7 @@ Wallbox
   stopleistung:100,                               Bezugsleistung bei der der Ladevorgang stopt in Watt
   offsetleistung:100,                             dieser Wert wird von der Leistungsmessung subtrahiert
   strom:[8000,10000,13000,16000],                 Stromstufen der Wallbox in mA
-  leistung:[1300,1900,2600,3600],                 Wirkleistung die die Wallbox bei den Stromstufen verbraucht
+  leistung:[1300,1900,2600,3600],                 Leistung der Wallbox bei einzelnen den Stromstufen
   wartezeit: 30,                                  Zeit in Sekunden die nach erfolgter Aktion noch gewartet wird
   wartetimeout: 120,                              Zeit in Sekunden nach der eine erfolglose Aktion abgebrochen wird
   startzeit: 60,                                  Zeit die die Startleistung ununterbrochen vorhanden sein muss
@@ -114,3 +120,21 @@ Wallboxschnittstellentyp http
 Wallboxschnittstellentyp test
 -----------------------------
   keine Einstellungen (Bereich daten bleibt leer)
+  
+
+Die Eingabedatei und die Ausgabedatei sollen für ein Weboberfläche verwendet werden.
+
+Eingabedatei
+------------
+Durch die Eingabedatei kann das Programm während es läuft Einfluß genommen werden. Diese Datei wird am Anfang jedes Umlaufs eingelesen.
+
+modus:1                 0 - Ladung beenden
+                        1 - Laden bei Überschuß beginnen und auch beenden wenn kein Überschuß mehr vorhanden ist
+                        2 - Laden sofort mit kleinster Stufe beginnen, Strom je nach Überschuß einstellen und nicht beenden
+                        3 - Ladung mit maximaler Leistung
+                        
+Ausgabedatei
+------------
+modus:1                 der eingestellte Modus
+status:1                der Status der wallbox
+strom:0                 der Strom der Wallbox
