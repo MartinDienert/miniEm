@@ -22,13 +22,13 @@ Die Datei miniEm.json hat folgenden Aufbau:
       },
       ladenStart:{
         ---Daten zum Ladestart---
-			},
+      },
       ladenStop:{
         ---Daten zum Ladestop---
-			},
+      },
       ladeStrom:{
         ---Daten zum einstellen des Ladestromes---
-			}
+      }
     }
   }
 }
