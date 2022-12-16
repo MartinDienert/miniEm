@@ -1,3 +1,116 @@
+Die Datei miniEm.json hat folgenden Aufbau:
 {
-  loglevel:5,
+  ---Allgemeine Einstellungen---
+  zaehlerErzeugung:{                              die Messstelle für die Erzeugung wird nur zur Information verwendet
+    ---Name und Typ der Messstelle---
+    daten:{
+      ---Daten des Messstellentyps---
+    }
+  },
+  zaehlerNetz:{                                   diese Messstelle liefert die verfügbare Leistung
+    ---Name und Typ der Messstelle---
+    daten:{
+      ---Daten des Messstellentyps---
+    }
+  },
+  wallbox:{                                       die Wallbox
+    ---Name, Daten und Typ der Wallbox---
+    daten:{
+      ---Daten der Wallboxschnittstelle---
+      status:{
+        ---Daten zur Abfrage des Status---
+      },
+			ladenStart:{
+        ---Daten zum Ladestart---
+			},
+			ladenStop:{
+        ---Daten zum Ladestop---
+			},
+			ladeStrom:{
+        ---Daten zum einstellen des Ladestromes---
+			}
+    }
+  }
+}
+    
   
+
+Allgemeine Einstellungen
+------------------------
+  loglevel:5,                                     steuert die Menge der Informationen
+  logMw:1,                                        schaltet die Messwertspeicherung ein (0 - aus, 1 - ein)
+  zykluszeit:5000,                                gibt an wie oft das Programm durchlaufen wird (in Millisekunden)
+  eingabedatei:"miniEm_eingabe.txt",              Name der Eingabedatei (siehe weiter unten)
+  ausgabedatei:"miniEm_ausgabe.txt",              Name der Ausgabedatei (siehe weiter unten)
+  mwdatei:"miniEm_messwerte.txt",                 Name der Datei in der die Messwerte gespeichert werden
+
+Messstelle
+----------
+  name:"froniusWr",                               Name der Messstelle
+  type:"modbustcp",                               Typ der Schnittstelle (modbusRTU, modbusTCP, test)
+
+Messstellentyp modbusTCP
+--------------
+  ip:"192.168.xxx.xxx",                           die IP-Adresse
+  port:502,                                       der Port
+  id:1,                                           die ID
+  regU:40076,                                     Register für die Spannung (nur zur Information)
+  faktorU:0.01,                                   ein Faktor der mit dem Registerwert multipliziert wird
+  regP:500,                                       das Register für die Leistung
+  faktorP:1                                       ein Faktor der mit dem Registerwert multipliziert wird
+
+Messstellentyp test
+-------------------
+  leistung:[-1000,-1450,-2730,-1400,-2860,  0,-1500,  0];           Leistung die nach der Zeit "gemessen" wird (negativ - Einspeisung)
+  zeiten:  [    0,   20,   80,  140,  200,260,  270,300];           Zeit im Millisekunden
+
+
+Wallbox
+-------
+  name:"Autoaid",                                 Name der Wallbox (frei wählbar)
+  startleistung:1400,                             Einspeiseleistung bei der der Ladevorgang startet in Watt
+  stopleistung:100,                               Bezugsleistung bei der der Ladevorgang stopt in Watt
+  offsetleistung:100,                             dieser Wert wird von der Leistungsmessung subtrahiert
+  strom:[8000,10000,13000,16000],                 Stromstufen der Wallbox in mA
+  leistung:[1300,1900,2600,3600],                 Wirkleistung die die Wallbox bei den Stromstufen verbraucht
+  wartezeit: 30,                                  Zeit in Sekunden die nach erfolgter Aktion noch gewartet wird
+  wartetimeout: 120,                              Zeit in Sekunden nach der eine erfolglose Aktion abgebrochen wird
+  startzeit: 60,                                  Zeit die die Startleistung ununterbrochen vorhanden sein muss
+  stopzeit: 120,                                  Zeit die die Stopleistung unterschritten sein muss
+  pluszeit: 30,                                   Zeit bis zur Umschaltung auf die höhere Stromstufe
+  minuszeit: 30,                                  Zeit bis zur Umschaltung auf die niedrigere Stromstufe
+  type:"http",                                    Typ der Schnittstelle (http, test)
+	
+Wallboxschnittstellentyp http
+-----------------------------
+  ip:"192.168.178.40",
+  port:80,
+  
+  Statusabfrage
+  -------------
+    request:"GET",
+    resource:"/evse/state",
+    status:"vehicle_state",
+    strom:"allowed_charging_current"
+
+	Ladestart
+  ---------
+    request:"PUT",
+    resource:"/evse/start_charging",
+    inhalt:"null"
+    
+  Ladestop
+  --------
+    request:"PUT",
+    resource:"/evse/stop_charging",
+    inhalt:"null"
+    
+  Ladestrom
+  ---------
+    request:"PUT",
+    resource:"/evse/current_limit",
+    inhalt:"{current:%i}"
+    
+Wallboxschnittstellentyp test
+-----------------------------
+  keine Einstellungen (Bereich daten bleibt leer)
