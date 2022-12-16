@@ -64,8 +64,10 @@ public class Main{
 			JSONObject config = new JSONObject(s);
 			Debug.logZeit(1);
 			Log.setLoglevel(config.getInt("loglevel"));
-			Log.setLogMw(config.getInt("logMw"));
-			Log.setMWDateiname(config.getString("mwdatei"));
+			Log.setLoglevelDatei(config.getInt("loglevelDatei"));
+			Log.setLogDateiname(config.getString("logdateiname"));
+			Log.setLoglevelMw(config.getInt("loglevelMw"));
+			Log.setMWDateiname(config.getString("mwdateiname"));
 			Sonstiges.eingabedatei = config.getString("eingabedatei");
 			Sonstiges.ausgabedatei = config.getString("ausgabedatei");
 			hs = new Hauptschleife(config);

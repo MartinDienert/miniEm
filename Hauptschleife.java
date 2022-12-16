@@ -36,7 +36,7 @@ class Hauptschleife extends TimerTask{
 		if(zErzeugung != null){
 			int p = zErzeugung.getLeistung();
 			if(zErzeugung.getFehler() == 0){
-				Log.addMW(p);
+				Log.addMW(p, 1);
 				Log.log("Erzeugung: " + (p) + " W", 2);
 			}
 		}
@@ -45,14 +45,15 @@ class Hauptschleife extends TimerTask{
 			float u = zNetz.getSpannung();
 			
 			if(zNetz.getFehler() == 0){
-				Log.addMW(p);
+				Log.addMW(p, 1);
 				Log.log("Spannung: " + new DecimalFormat("#.#").format(u) + " V, Leistung: " + (p + wBLeistung) + " W", 2);
 				if(wBox != null){
 					wBox.setLeistung(p + wBLeistung);
 				}
 			}
 		}
-		Log.logMW(1);
+		Log.logDatei();
+		Log.logMW();
 		Sonstiges.ausgabe_schreiben();
 		Debug.logZeit(1);
 	}
