@@ -15,3 +15,5 @@ Programm starten mit `java  -classpath .:lib/jlibmodbus.jar:lib/jssc.jar:lib/jso
 jar-Datei erzeugen - `jar cvmf META-INF/MANIFEST.MF miniEm.jar *.class`
 
 Datei ausführen - `java -jar miniEm.jar`
+
+Einstellungen werden in der Datei `miniEm.json` vorgenommen. Beschreibung in der Datei Einstellungen.txt.
