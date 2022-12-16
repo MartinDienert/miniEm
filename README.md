@@ -16,4 +16,4 @@ jar-Datei erzeugen - `jar cvmf META-INF/MANIFEST.MF miniEm.jar *.class`
 
 Datei ausführen - `java -jar miniEm.jar`
 
-Einstellungen werden in der Datei `miniEm.json` vorgenommen. Beschreibung in der Datei `Einstellungen.txt.
+Einstellungen werden in der Datei `miniEm.json` vorgenommen. Beschreibung in der Datei `Einstellungen.txt` .
